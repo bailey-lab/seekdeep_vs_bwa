@@ -37,7 +37,7 @@ rule copy_files: #needs to be edited and integrated
 	output:
 		snakefile=config['output_folder']+'/snakemake_parameters/modular_seekdeep_vs_bwa.smk',
 		configfile=config['output_folder']+'/snakemake_parameters/modular_config.yaml',
-		scripts=directory(config['output_folder']+'/snakemake_pipelines')
+		scripts=directory(config['output_folder']+'/snakemake_parameters/snakemake_pipelines')
 	shell:
 		'''
 		cp {input.snakefile} {output.snakefile}

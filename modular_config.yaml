@@ -7,7 +7,7 @@ indexed_genome_path: '/nfs/jbailey5/baileyweb/bailey_share/UCSC_genome_browser/P
 #them) if needed.
 fastq_folder: /nfs/jbailey5/baileyweb/asimkin/seekdeep/DR_amplicon_panel/protocol_1.8/fastq_softlinks_v18
 extraction_profile: /nfs/jbailey5/baileyweb/igyuricz/DrugResistAmp_3D7/output_files/results_new_primer_ratios_trial_v18/analysis/reports/allExtractionProfile.tab.txt
-amplicon_location_size: 'count_bwa_reads_inputs/amplicons_location_size.csv'
+amplicon_location_size: 'amplicons_location_size.csv'
 
 mate1_suffix: _R1.fastq.gz #part of file name ending shared across all samples. If
 #unpaired, file extensions of read files, e.g. .fastq, _L001.fastq,
