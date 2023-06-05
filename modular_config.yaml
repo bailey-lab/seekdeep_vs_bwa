@@ -1,0 +1,77 @@
+#location of your bwa indexed genome that you want to map to. You can generate
+#these files from a genome fasta with e.g. 'bwa index genome.fa'
+indexed_genome_path: '/nfs/jbailey5/baileyweb/bailey_share/UCSC_genome_browser/Pf_3D7/Pf_3D7_genome/PlasmoDB-62_Pfalciparum3D7_Genome.fasta'
+
+#this program expects a single folder containing all of your fastq files. You
+#can make soft links to place your fastq files in a single folder (and rename
+#them) if needed.
+fastq_folder: /nfs/jbailey5/baileyweb/asimkin/seekdeep/DR_amplicon_panel/protocol_1.8/fastq_softlinks_v18
+extraction_profile: /nfs/jbailey5/baileyweb/igyuricz/DrugResistAmp_3D7/output_files/results_new_primer_ratios_trial_v18/analysis/reports/allExtractionProfile.tab.txt
+amplicon_location_size: 'count_bwa_reads_inputs/amplicons_location_size.csv'
+
+mate1_suffix: _R1.fastq.gz #part of file name ending shared across all samples. If
+#unpaired, file extensions of read files, e.g. .fastq, _L001.fastq,
+#_L001.fastq.gz, etc. If paired, could be _R1.fastq.gz, _L001_R1.fastq, etc.
+mate2_suffix: _R2.fastq.gz #leave this as empty quotes if unpaired. If paired, add mate2
+#suffix, e.g. _R2.fastq.gz, _L001.fastq, etc.
+
+#number of nucleotides that need to be D, I, or M to consider as a valid read.
+score_threshold: 70
+
+#location where your output data will be sent.
+output_folder: v1.8
+
+primers:
+  - ama1
+  - dhfr-108
+  - dhfr-51-59
+  - dhps-436-437
+  - dhps-540
+  - dhps-581
+  - dhps-613
+  - heome-a
+  - heome-b
+  - heome-c
+  - heome-d
+  - heome-e
+  - heome-f
+  - heome-g
+  - heome-h
+  - k13-a
+  - k13-b
+  - k13-c
+  - k13-f
+  - k13-g
+  - mdr1-1034
+  - mdr1-184
+  - mdr1-86
+  - pfcrt
+
+#sample names associated with your fastq file. Only include the unique
+#beginnings of sample names (file extensions, mate pair numbers, etc. go in
+#'suffixes' below)
+samples:
+  - 3D7-DBS1-10K-Rep15
+  - 3D7-DBS1-10-Rep12
+  - 3D7-DBS1-100-Rep13
+  - 3D7-DBS1-100-Rep11
+  - 3D7-DBS1-10K-Rep13
+  - 3D7-DBS1-100-Rep14
+  - 3D7-DBS1-1K-Rep17
+  - 3D7-DBS1-10K-Rep14
+  - 3D7-DBS1-10K-Rep11
+  - 3D7-DBS1-10-Rep16
+  - 3D7-DBS1-1K-Rep12
+  - 3D7-DBS1-1K-Rep16
+  - 3D7-DBS1-100-Rep12
+  - 3D7-DBS1-10K-Rep12
+  - 3D7-DBS1-10-Rep11
+  - 3D7-DBS1-1K-Rep11
+  - 3D7-DBS1-10K-Rep16
+  - 3D7-DBS1-100-Rep16
+  - 3D7-DBS1-100-Rep15
+  - 3D7-DBS1-1K-Rep15
+  - 3D7-DBS1-10-Rep14
+  - 3D7-DBS1-10-Rep15
+  - 3D7-DBS1-10-Rep13
+  - 3D7-DBS1-1K-Rep14
