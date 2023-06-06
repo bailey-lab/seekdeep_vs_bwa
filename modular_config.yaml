@@ -5,8 +5,8 @@ indexed_genome_path: '/nfs/jbailey5/baileyweb/bailey_share/UCSC_genome_browser/P
 #this program expects a single folder containing all of your fastq files. You
 #can make soft links to place your fastq files in a single folder (and rename
 #them) if needed.
-fastq_folder: /nfs/jbailey5/baileyweb/asimkin/seekdeep/DR_amplicon_panel/protocol_1.8/fastq_softlinks_v18
-extraction_profile: /nfs/jbailey5/baileyweb/igyuricz/DrugResistAmp_3D7/output_files/results_new_primer_ratios_trial_v18/analysis/reports/allExtractionProfile.tab.txt
+fastq_folder: /nfs/jbailey5/baileyweb/igyuricz/DrugResistAmp_3D7/input_files/new_primer_ratios_trial/fastq_softlinks
+extraction_profile: /nfs/jbailey5/baileyweb/igyuricz/DrugResistAmp_3D7/output_files/results_new_primer_ratios_trial/analysis/reports/allExtractionProfile.tab.txt
 amplicon_location_size: 'amplicons_location_size.csv'
 
 mate1_suffix: _R1.fastq.gz #part of file name ending shared across all samples. If
@@ -19,7 +19,7 @@ mate2_suffix: _R2.fastq.gz #leave this as empty quotes if unpaired. If paired, a
 score_threshold: 70
 
 #location where your output data will be sent.
-output_folder: v1.8
+output_folder: v1.7_results
 
 primers:
   - ama1
@@ -51,27 +51,15 @@ primers:
 #beginnings of sample names (file extensions, mate pair numbers, etc. go in
 #'suffixes' below)
 samples:
-  - 3D7-DBS1-10K-Rep15
-  - 3D7-DBS1-10-Rep12
-  - 3D7-DBS1-100-Rep13
-  - 3D7-DBS1-100-Rep11
-  - 3D7-DBS1-10K-Rep13
-  - 3D7-DBS1-100-Rep14
-  - 3D7-DBS1-1K-Rep17
-  - 3D7-DBS1-10K-Rep14
-  - 3D7-DBS1-10K-Rep11
-  - 3D7-DBS1-10-Rep16
-  - 3D7-DBS1-1K-Rep12
-  - 3D7-DBS1-1K-Rep16
-  - 3D7-DBS1-100-Rep12
-  - 3D7-DBS1-10K-Rep12
-  - 3D7-DBS1-10-Rep11
   - 3D7-DBS1-1K-Rep11
-  - 3D7-DBS1-10K-Rep16
-  - 3D7-DBS1-100-Rep16
-  - 3D7-DBS1-100-Rep15
-  - 3D7-DBS1-1K-Rep15
-  - 3D7-DBS1-10-Rep14
-  - 3D7-DBS1-10-Rep15
-  - 3D7-DBS1-10-Rep13
-  - 3D7-DBS1-1K-Rep14
+  - 3D7-DBS1-1K-Rep12
+  - 3D7-DBS2-1K-Rep21
+  - 3D7-DBS2-1K-Rep22
+  - 3D7-DBS3-1K-Rep31
+  - 3D7-DBS3-1K-Rep32
+  - 3D7-DBS1-10K-Rep11
+  - 3D7-DBS1-10K-Rep12
+  - 3D7-DBS2-10K-Rep21
+  - 3D7-DBS2-10K-Rep22
+  - 3D7-DBS3-10K-Rep31
+  - 3D7-DBS3-10K-Rep32
