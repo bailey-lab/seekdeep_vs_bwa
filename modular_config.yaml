@@ -17,7 +17,7 @@ mate2_suffix: _R2.fastq.gz #leave this as empty quotes if unpaired. If paired, a
 #suffix, e.g. _R2.fastq.gz, _L001.fastq, etc.
 
 #location where your output data will be sent.
-output_folder: 1.8_results
+output_folder: 1.8_results_overlapping_inward_facing
 
 primers:
   - ama1

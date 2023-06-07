@@ -1,14 +1,13 @@
 '''
 This version uses the following filters:
  - read score>threshold
- - exactly 2 sam lines that are primary alignments
  - correct chromosome
- - if only one end of read maps to edge of amplicon:
-   - 1 read left edge at left edge of amplicon
-   - 1 read right edge at right edge of amplicon
- - if both ends of read map to edges of amplicon:
-   - first read mapping at both edges assigned to left edge
-   - second read mapping at both edges assigned to right edge
+ - exactly 2 sam lines per read that are primary alignments:
+   - one reverse complemented
+   - one not reverse complemented
+ - 2 sam lines must overlap
+ - non-revcom read begins at left end of amplicon
+ - revcom read ends at right end of amplicon
 '''
 all_regions=snakemake.input['all_regions']
 summary=snakemake.output['summary']
@@ -56,6 +55,7 @@ summary_dict={}
 all_reads=set([])
 #region_of_interest='k13-a_3D7-DBS1-10-Rep11-sorted-headerless.sam'
 #all_regions=[region_of_interest]
+import time
 for region in all_regions:
 	print('region is', region)
 	primer, sample=region.split('/')[-1].split('_')
@@ -69,30 +69,37 @@ for region in all_regions:
 		read, flag, chrom, pos, CIGAR=line[0], int(line[1]), line[2], int(line[3]), line[5]
 		score, size, clip=calculate_score(CIGAR)
 		read_start, read_end=pos, pos+abs(size)
-#		if read=='FS10001583:20:BPL20303-3425:1:1116:2410:1570':
+#		if read=='FS10001583:22:BSB09425-1416:1:1102:2600:2100':
 #			print(line)
 #			print('target was', target_chrom, target_start, target_end)
 #			print('pos was', pos, 'size was', size, 'end pos was', pos+abs(size))
 #		if chrom==target_chrom and pos>=target_start and (pos+abs(size))<=target_end:
 		if score>score_threshold and flag<256 and chrom==target_chrom:
-			read_dict.setdefault(read, [0,False,False])
-			read_dict[read][0]+=1
-			if abs(read_start-target_start)<10 and not abs(read_end-target_end)<10:
-				read_dict[read][1]=True
-			elif abs(read_end-target_end)<10 and not abs(read_start-target_start)<10:
-				read_dict[read][2]=True
-			elif abs(read_start-target_start)<10 and abs(read_end-target_end)<10 and not read_dict[read][1]:
-				read_dict[read][1]=True
-			elif abs(read_start-target_start)<10 and abs(read_end-target_end)<10 and read_dict[read][1]:
-				read_dict[read][2]=True
+			if bin(flag)[-5]=='1':
+				revcom=True
+			else:
+				revcom=False
+			read_dict.setdefault(read, {'readcount':0, 'left_end':False, 'right_start':False})
+			read_dict[read]['readcount']+=1
+			if not revcom:
+				if abs(read_start-target_start)<10:
+					read_dict[read]['left_end']=read_end
+			elif revcom:
+				if abs(read_end-target_end)<10:
+					read_dict[read]['right_start']=read_start
 #			if read=='FS10001583:20:BPL20303-3425:1:1116:2410:1570' and read_dict[read][0]==2 and read_dict[read][1] and read_dict[read][2]:
 #				print('******************', target_chrom, target_start, target_end, '********************')
 	for read in read_dict:
-		if read_dict[read][0]==2 and read_dict[read][1] and read_dict[read][2]:
-			summary_dict[sample][primer].add(read)
-			if read in all_reads:
-				print(read, flag, pos, CIGAR, size, score)
-			all_reads.add(read)
+		if read_dict[read]['readcount']==2:
+#			print(read_dict[read])
+#			time.sleep(10)
+			if read_dict[read]['left_end'] and read_dict[read]['right_start'] and read_dict[read]['left_end']>read_dict[read]['right_start']:
+#			if read=='FS10001583:22:BSB09425-1416:1:1102:2600:2100':
+#				print(read_dict[read])
+				summary_dict[sample][primer].add(read)
+				if read in all_reads:
+					print(read, flag, pos, CIGAR, size, score)
+				all_reads.add(read)
 #	if region==region_of_interest:
 #		interest_read_dict=read_dict
 
