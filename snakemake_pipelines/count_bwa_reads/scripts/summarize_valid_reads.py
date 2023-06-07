@@ -96,12 +96,12 @@ for region in all_regions:
 #	if region==region_of_interest:
 #		interest_read_dict=read_dict
 
-target_chrom, target_start, target_end=coord_dict['k13-a']
-for line in open(region_of_interest):
-	line=line.strip().split()
-	read, flag, chrom, pos, CIGAR=line[0], int(line[1]), line[2], int(line[3]), line[5]
-	score, size, clip=calculate_score(CIGAR)
-	read_start, read_end=pos, pos+abs(size)
+#target_chrom, target_start, target_end=coord_dict['k13-a']
+#for line in open(region_of_interest):
+#	line=line.strip().split()
+#	read, flag, chrom, pos, CIGAR=line[0], int(line[1]), line[2], int(line[3]), line[5]
+#	score, size, clip=calculate_score(CIGAR)
+#	read_start, read_end=pos, pos+abs(size)
 #	if read=='FS10001583:22:BSB09425-1416:1:1116:9880:1420':
 #		print(line)
 #		print('\n', line)
