@@ -54,8 +54,8 @@ def calculate_score(CIGAR):
 coord_dict=make_coord_dict(coords_file)
 summary_dict={}
 all_reads=set([])
-region_of_interest='k13-a_3D7-DBS1-10-Rep11-sorted-headerless.sam'
-all_regions=[region_of_interest]
+#region_of_interest='k13-a_3D7-DBS1-10-Rep11-sorted-headerless.sam'
+#all_regions=[region_of_interest]
 for region in all_regions:
 	print('region is', region)
 	primer, sample=region.split('/')[-1].split('_')
@@ -93,8 +93,8 @@ for region in all_regions:
 			if read in all_reads:
 				print(read, flag, pos, CIGAR, size, score)
 			all_reads.add(read)
-	if region==region_of_interest:
-		interest_read_dict=read_dict
+#	if region==region_of_interest:
+#		interest_read_dict=read_dict
 
 target_chrom, target_start, target_end=coord_dict['k13-a']
 for line in open(region_of_interest):
@@ -108,13 +108,13 @@ for line in open(region_of_interest):
 #		print('target was', target_chrom, target_start, target_end)
 #		print('read_start:', pos, 'read_end:', pos+abs(size))
 
-	if read in interest_read_dict:
-		if interest_read_dict[read][0]==2 and interest_read_dict[read][1] and interest_read_dict[read][2]:
-			pass
-		elif interest_read_dict[read][0]==2 and score>score_threshold and flag<256 and chrom==target_chrom and (abs(read_start-target_start)<10 and abs(read_end-target_end)<10):
-			print('\n', line)
-			print('target was', target_chrom, target_start, target_end)
-			print('read_start:', pos, 'read_end:', pos+abs(size))
+#	if read in interest_read_dict:
+#		if interest_read_dict[read][0]==2 and interest_read_dict[read][1] and interest_read_dict[read][2]:
+#			pass
+#		elif interest_read_dict[read][0]==2 and score>score_threshold and flag<256 and chrom==target_chrom and (abs(read_start-target_start)<10 and abs(read_end-target_end)<10):
+#			print('\n', line)
+#			print('target was', target_chrom, target_start, target_end)
+#			print('read_start:', pos, 'read_end:', pos+abs(size))
 
 all_samples=list(summary_dict.keys())
 all_primers=list(summary_dict[all_samples[0]].keys())
