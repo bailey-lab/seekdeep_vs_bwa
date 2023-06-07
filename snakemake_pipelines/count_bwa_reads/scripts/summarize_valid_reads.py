@@ -1,3 +1,15 @@
+'''
+This version uses the following filters:
+ - read score>threshold
+ - exactly 2 sam lines that are primary alignments
+ - correct chromosome
+ - if only one end of read maps to edge of amplicon:
+   - 1 read left edge at left edge of amplicon
+   - 1 read right edge at right edge of amplicon
+ - if both ends of read map to edges of amplicon:
+   - first read mapping at both edges assigned to left edge
+   - second read mapping at both edges assigned to right edge
+'''
 all_regions=snakemake.input['all_regions']
 summary=snakemake.output['summary']
 score_threshold=snakemake.params['score_threshold']
@@ -42,8 +54,8 @@ def calculate_score(CIGAR):
 coord_dict=make_coord_dict(coords_file)
 summary_dict={}
 all_reads=set([])
-#region_of_interest='v1.7_results/count_bwa_reads_outputs/primer_overlapping_reads/dhps-581_3D7-DBS1-10K-Rep11.sam'
-#all_regions=[region_of_interest]
+region_of_interest='k13-a_3D7-DBS1-10-Rep11-sorted-headerless.sam'
+all_regions=[region_of_interest]
 for region in all_regions:
 	print('region is', region)
 	primer, sample=region.split('/')[-1].split('_')
@@ -81,23 +93,28 @@ for region in all_regions:
 			if read in all_reads:
 				print(read, flag, pos, CIGAR, size, score)
 			all_reads.add(read)
-#	if region==region_of_interest:
-#		interest_read_dict=read_dict
+	if region==region_of_interest:
+		interest_read_dict=read_dict
 
-#target_chrom, target_start, target_end=coord_dict['dhps-581']
-#for line in open(region_of_interest):
-#	line=line.strip().split()
-#	read, flag, chrom, pos, CIGAR=line[0], int(line[1]), line[2], int(line[3]), line[5]
-#	score, size, clip=calculate_score(CIGAR)
-#	read_start, read_end=pos, pos+abs(size)
-#	if read=='FS10001583:20:BPL20303-3425:1:1101:1190:3830':
-#		print(CIGAR, score, size, clip)
-#		if interest_read_dict[read][0]==2 and interest_read_dict[read][1] and interest_read_dict[read][2]:
-#			pass
-#		elif score>score_threshold and flag<256 and chrom==target_chrom and (abs(read_start-target_start)<10 or abs(read_end-target_end)<10):
-#			print('\n', line)
-#			print('target was', target_chrom, target_start, target_end)
-#			print('read_start:', pos, 'read_end:', pos+abs(size))
+target_chrom, target_start, target_end=coord_dict['k13-a']
+for line in open(region_of_interest):
+	line=line.strip().split()
+	read, flag, chrom, pos, CIGAR=line[0], int(line[1]), line[2], int(line[3]), line[5]
+	score, size, clip=calculate_score(CIGAR)
+	read_start, read_end=pos, pos+abs(size)
+#	if read=='FS10001583:22:BSB09425-1416:1:1116:9880:1420':
+#		print(line)
+#		print('\n', line)
+#		print('target was', target_chrom, target_start, target_end)
+#		print('read_start:', pos, 'read_end:', pos+abs(size))
+
+	if read in interest_read_dict:
+		if interest_read_dict[read][0]==2 and interest_read_dict[read][1] and interest_read_dict[read][2]:
+			pass
+		elif interest_read_dict[read][0]==2 and score>score_threshold and flag<256 and chrom==target_chrom and (abs(read_start-target_start)<10 and abs(read_end-target_end)<10):
+			print('\n', line)
+			print('target was', target_chrom, target_start, target_end)
+			print('read_start:', pos, 'read_end:', pos+abs(size))
 
 all_samples=list(summary_dict.keys())
 all_primers=list(summary_dict[all_samples[0]].keys())
